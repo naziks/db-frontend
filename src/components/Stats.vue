@@ -39,7 +39,10 @@ let uiconf = useUIStore();
 <style scoped lang="scss">
 @import '@/styles';
 .stats {
+  scroll-snap-type: y mandatory;
+
   .stat {
+    scroll-snap-align: start;
     width: 100%;
   }
 

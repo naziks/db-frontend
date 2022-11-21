@@ -7,8 +7,9 @@ const { isAuthenticated } = useAuthStore();
 </script>
 
 <template>
-  <Layout v-if="isAuthenticated" />
-  <AuthView v-else/>
+<!--  <Layout v-if="isAuthenticated" />-->
+<!--  <AuthView v-else/>-->
+  <Layout />
 </template>
 
 <style lang="scss">

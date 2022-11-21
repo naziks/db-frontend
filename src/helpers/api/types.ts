@@ -1,33 +1,33 @@
-/** Failed Request details */
-export interface ApiError {
-    code: number
-    message: string
-}
-
-/** Success Request details */
-export interface ApiSuccess {}
-
-enum ApiRequestMethod{
+//////////// REQUESTS ////////////
+export enum ApiRequestMethod{
     GET = 'GET',
     POST = 'POST',
     PUT = 'PUT',
     DELETE = 'DELETE'
 }
 
-/** Request options */
-export interface ApiRequest<T extends ApiSuccess> {
+export interface ApiRequestDataBase {}
+export type ApiRequestData = ApiRequestDataBase | string | number | boolean
+
+export interface ApiRequest<T extends ApiRequestData> {
     method: ApiRequestMethod
-    data: ApiResponse<T>
+    path: string
+    params?: null | Record<string, string | number | boolean>
+    data?: T
 }
 
+//////////// RESPONSES ////////////
 export interface ApiError {
     code: number
     message: string
 }
 
+export interface ApiSuccessBase {}
+export type ApiSuccess = ApiSuccessBase | string | number | boolean
+
 export interface ApiResponse<T extends ApiSuccess> {
     /** Request status: Success or Fail  **/
-    ok: boolean
+    success: boolean
     error: ApiError | null
     data: T | null
 }

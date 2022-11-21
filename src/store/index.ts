@@ -1,11 +1,4 @@
-// import { defineStore } from 'pinia'
+import { defineStore } from 'pinia'
+import {Ref, ref} from "vue";
 export { useAuthStore } from '@/store/auth';
 export { useUIStore } from '@/store/ui';
-
-// export const useDefaultStore = defineStore({
-//     id: 'default',
-//     state: () => ({
-//
-//     }),
-// });
-

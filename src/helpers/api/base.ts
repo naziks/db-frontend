@@ -8,7 +8,7 @@ import {
     ApiError
 } from "@/helpers/api/types";
 
-const makeApiRequest = async <T extends ApiSuccess>(url: string, request: ApiRequest<T>): Promise<ApiResponse<T>> => {
+const makeApiRequest = async <T extends ApiSuccess | string | number | boolean>(url: string, request: ApiRequest<T>): Promise<ApiResponse<T>> => {
     // axios request
     const response = await axios({
         method: request.method,

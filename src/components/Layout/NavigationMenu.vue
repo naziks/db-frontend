@@ -37,14 +37,13 @@ let menuItems = ref([
 ]);
 let currentRoute = useRoute();
 
-let scrollHandler = () => dropNavbarShadow.value = !!window.scrollY
+let scrollHandler = () => dropNavbarShadow.value = window.scrollY > 40
 onMounted(() => {
   window.addEventListener('scroll', scrollHandler);
 });
 onUnmounted(() => {
   window.removeEventListener('scroll', scrollHandler);
 });
-
 
 watch(isMenuOpen, (value) => {
   let body = document.body.classList;
@@ -147,7 +146,7 @@ const isActive = (item: any) => {
   position: sticky;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 100;
   transition: box-shadow 0.2s ease-in-out;
 
 

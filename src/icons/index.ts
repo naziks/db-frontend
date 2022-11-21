@@ -22,5 +22,6 @@ library.add(solid.faPersonRunning)
 library.add(solid.faSkullCrossbones)
 library.add(solid.faArrowRightArrowLeft)
 library.add(solid.faInfoCircle)
+library.add(solid.faSpinner)
 
 export default library;

@@ -1,19 +1,20 @@
-import {ApiSuccess} from "@/helpers/api/types";
+import {ApiSuccess, ApiSuccessBase} from "@/helpers/api/types";
 
 // Schema
-interface ISchema extends ApiSuccess {}
-interface IPerson extends ISchema {}
-interface IEntity extends ISchema {} // object
-interface IAct extends ISchema {} // event
+export interface ISchema extends ApiSuccessBase {}
+export interface IPerson extends ISchema {}
+export interface IEntity extends ISchema {} // object
+export interface IAct extends ISchema {} // event
 
 // Perons
-interface PersonAlcoholic extends IPerson{
+export interface PersonAlcoholic extends IPerson {
     alcoholic_id: number,
     full_name: string,
     dob: string,
     phone_number: string,
 }
-interface PersonInspector extends IPerson {
+
+export interface PersonInspector extends IPerson {
     inspector_id: number,
     full_name: string,
     dob: string,
@@ -21,22 +22,22 @@ interface PersonInspector extends IPerson {
 }
 
 // Entity
-interface EntityBed extends IEntity {
+export interface EntityBed extends IEntity {
     bed_id: number,
 }
-interface EntityDrink extends IEntity {
+export interface EntityDrink extends IEntity {
     drink_id: number,
     title: string,
     proof: number,
 }
 
 // Act/Event
-interface GeneralEvent extends IAct {
+export interface GeneralEvent extends IAct {
     general_id: number,
     updated_at: string,
     created_at: string,
 }
-interface BedEvent extends IAct {
+export interface BedEvent extends IAct {
     bed_event_id: number,
     bed_id: number,
     alcoholic_id: number,
@@ -46,7 +47,7 @@ interface BedEvent extends IAct {
     alcoholic: PersonAlcoholic | null,
     bed: EntityBed | null,
 }
-interface AlcoPartyEvent extends IAct {
+export interface AlcoPartyEvent extends IAct {
     general_id: number,
     alcoholic_id: number,
     drink_id: number,
@@ -55,7 +56,7 @@ interface AlcoPartyEvent extends IAct {
     alcoholic: PersonAlcoholic | null,
     drink: EntityDrink | null,
 }
-interface JoinEvent extends IAct {
+export interface JoinEvent extends IAct {
     general_id: number,
     alcoholic_id: number,
     inspector_id: number,
@@ -66,7 +67,7 @@ interface JoinEvent extends IAct {
     inspector: PersonInspector | null,
     bed_event: BedEvent | null,
 }
-interface FaintEvent extends IAct {
+export interface FaintEvent extends IAct {
     general_id: number,
     alcoholic_id: number,
     bed_event_id: number,
@@ -75,7 +76,7 @@ interface FaintEvent extends IAct {
     alcoholic: PersonAlcoholic | null,
     bed_event: BedEvent | null,
 }
-interface LeaveEvent extends IAct {
+export interface LeaveEvent extends IAct {
     general_id: number,
     alcoholic_id: number,
     inspector_id: number,
@@ -86,7 +87,7 @@ interface LeaveEvent extends IAct {
     inspector: PersonInspector | null,
     bed_event: BedEvent | null,
 }
-interface EscapeEvent extends IAct {
+export interface EscapeEvent extends IAct {
     general_id: number,
     alcoholic_id: number,
     bed_event_id: number,

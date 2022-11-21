@@ -34,11 +34,13 @@ export interface InputListDateRangeType {
 
 export interface InputListEntityPickerType {
     type: InputItemType.entitypicker
+    label: string
     api_name: string // api name of the entity
     api_column: string // value from this column will be used as result
     table: string // table name
     search_in: string[] // if you type to search field, it will search in this columns
-    template: CallableFunction // (row) => `${row.full_name}#${row.id}`
+    select_template: CallableFunction // template for select field
+    preview_template: CallableFunction // (row) => `${row.full_name}#${row.id}`
 }
 
 export type InputListItem = InputListItemType | InputListDateRangeType | InputListEntityPickerType;
@@ -51,7 +53,7 @@ class InputGenerator {
         return this;
     }
 
-    addEntityPicker(api_name: string, label: string, api_column: string, table: string, search_in: string[], template: Function) {
+    addEntityPicker(api_name: string, label: string, api_column: string, table: string, search_in: string[], select_template: Function, preview_template: Function) {
         return this.add({
             type: InputItemType.entitypicker,
             api_name,
@@ -59,7 +61,8 @@ class InputGenerator {
             api_column,
             table,
             search_in,
-            template,
+            select_template,
+            preview_template,
         })
     }
 
@@ -115,11 +118,13 @@ class InputGenerator {
 // ready entity pickers
 const AlcoholicEntityPicker: InputListEntityPickerType = {
     type: InputItemType.entitypicker,
-    api_name: 'alcoholic_id',
+    api_name: 'alcoholic_id', // out
     api_column: 'alcoholic_id',
     table: 'person.alcoholic',
-    search_in: ['full_name', 'id'],
-    template: (row: any) => `${row.full_name}#${row.id}`
+    search_in: ['full_name', 'alcoholic_id'],
+    label: 'Select Alcoholic',
+    select_template: (row: any) => row.full_name,
+    preview_template: (row: any) => `${row.full_name}#${row.alcoholic_id}`
 }
 
 const InspectorEntityPicker: InputListEntityPickerType = {
@@ -127,8 +132,10 @@ const InspectorEntityPicker: InputListEntityPickerType = {
     api_name: 'inspector_id',
     api_column: 'inspector_id',
     table: 'person.inspector',
-    search_in: ['full_name', 'id'],
-    template: (row: any) => `${row.full_name}#${row.id}`
+    search_in: ['full_name', 'inspector_id'],
+    label: 'Select Inspector',
+    select_template: (row: any) => row.full_name,
+    preview_template: (row: any) => `${row.full_name}#${row.inspector_id}`
 }
 
 // ready date picker
@@ -155,7 +162,7 @@ export const QueryBuffer: Query[] = [{
     description: "Find all inspectors who take <code>alcoholic</code> to <b>DetoXer</b> at least <code>N</code> times",
     input: (new InputGenerator())
         .add(AlcoholicEntityPicker)
-        .addNumber('n', 'N', nValidator)
+        .addNumber('n', 'Select amount', nValidator)
         .add(DateRange)
         .finish(),
 }, {
@@ -170,7 +177,7 @@ export const QueryBuffer: Query[] = [{
     description: "Find all alcoholics who was taken by <code>inspector</code> to <b>DetoXer</b> at least <code>N</code> times",
     input: (new InputGenerator())
         .add(InspectorEntityPicker)
-        .addNumber('n', 'N')
+        .addNumber('n', 'Select amount', nValidator)
         .add(DateRange)
         .finish(),
 }];
