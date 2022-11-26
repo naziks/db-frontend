@@ -1,8 +1,29 @@
 <script setup lang="ts">
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import {useUIStore} from "@/store";
+import {ref} from "vue";
+import {makeStatsRequest} from "@/helpers/api/endpoints/stats";
 
 let uiconf = useUIStore();
+
+let stats = ref<object>({
+  last_joined_alcoholic: {
+    full_name: '?',
+    dob: ''
+  },
+  total_alcoholics: '?',
+  today_joined: '?',
+  beds_remaining: '?'
+});
+
+(async () => {
+  let res = await makeStatsRequest();
+
+  if(res) {
+    stats.value = res;
+  }
+})()
+
 </script>
 
 <template>
@@ -12,8 +33,10 @@ let uiconf = useUIStore();
         <font-awesome-icon icon="user" class="inline-block w-8 h-8 stroke-current"/>
       </div>
       <div class="stat-title">Last joined</div>
-      <div class="stat-value text-primary">Ivan Ivanov</div>
-      <div class="stat-desc">01-04-2022 | 20:10</div>
+      <div class="stat-value text-primary">
+          {{ stats.last_joined_alcoholic.full_name }}
+      </div>
+      <div class="stat-desc">{{ stats.last_joined_alcoholic.dob }}</div>
     </div>
 
     <div class="stat">
@@ -21,7 +44,7 @@ let uiconf = useUIStore();
         <font-awesome-icon icon="users" class="inline-block w-8 h-8 stroke-current"/>
       </div>
       <div class="stat-title">Total alcoholics</div>
-      <div class="stat-value text-secondary">10.1K</div>
+      <div class="stat-value text-secondary">{{ stats.total_alcoholics }}</div>
       <div class="stat-desc"></div>
     </div>
 
@@ -30,8 +53,8 @@ let uiconf = useUIStore();
         <font-awesome-icon icon="right-to-bracket" class="inline-block w-8 h-8 stroke-current"/>
       </div>
       <div class="stat-title">Today joined</div>
-      <div class="stat-value">723</div>
-      <div class="stat-desc text-secondary">852 beds remaining</div>
+      <div class="stat-value">{{  stats.today_joined }}</div>
+      <div class="stat-desc text-secondary">{{ stats.beds_remaining }} bed(s) remaining</div>
     </div>
   </div>
 </template>

@@ -1,0 +1,54 @@
+// fade in animation
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// fade in mixin
+@mixin fadein($delay: 0, $duration: 0.5) {
+  opacity: 0;
+  animation: fade-in #{$duration}s ease-in-out #{$delay}s forwards;
+}
+
+// fade bounce animation
+@keyframes fade-bounce {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// fade bounce mixin
+@mixin fadeslideup($delay: 0, $duration: 0.5) {
+  opacity: 0;
+  animation: fade-bounce #{$duration}s ease-in-out #{$delay}s forwards;
+}
+
+// form animation
+
+.add-form-animation {
+  h1 {
+    @include fadein(.2, .3);
+  }
+
+  .alert {
+    @include fadein(.4, .3);
+  }
+
+
+  form{
+    @include fadeslideup(.2, .4);
+  }
+
+  .button-group {
+    @include fadein(0, .3);
+  }
+}

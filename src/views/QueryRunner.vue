@@ -7,11 +7,13 @@ import QueryRunnerForm from "@/components/QueryRunnerForm/QueryRunnerForm.vue";
 import QueryTable from "@/components/ApiTable/QueryTable.vue";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import Spinner from "@/components/Spinner.vue";
+import DashboardActionCard from "@/components/DashboardActionCard.vue";
 
 const {recieve, emit} = useEventsBus();
 const step = ref<number>(1);
 const form_valid = ref<boolean>(false);
 const form_values = ref<Record<string, any>>({});
+let loading_form = false;
 
 recieve('formInputStatusChanged', (status: object) => {
   form_valid.value = status.valid;
@@ -24,17 +26,24 @@ const changeStep = (action: string) => {
 
   if(next < 1 || next > 4) return;
   if(next == 3 && action != 'next') next = 2;
+
+  if(next === 3) {
+    loading_form = true;
+  }
+
   step.value = next;
 }
 
+
 const setStep = (num: number) => {
-  if(step.value === num || num === 3) return;
+  if(step.value === num || num > 2 || loading_form) return;
   step.value = num;
 }
 
 const showPrevButton = computed<boolean>(() => step.value > 1 && step.value != 3);
-const showNextButton = computed<boolean>(() => step.value < 2 || (step.value == 2 && form_valid.value));
-
+const showNextButton = computed<boolean>(() => {
+  return step.value < 2 || (step.value == 2 && (form_valid.value || !selected_item.value?.input?.length));
+});
 // TODO: if loading -> prevent going back via step buttons
 
 const steps_list = ref<string[]>([
@@ -58,15 +67,25 @@ const onReload = (route: any = null) => {
 onMounted(onReload);
 watch(useRoute(), (r) => onReload(r));
 
-//
-watch(step, (v) => {
-  if(v == 3) {
-    // TODO: run query
+const query_table_inited = async () => {
+  console.log('have event', step.value);
+  if (step.value !== 4) {
     setTimeout(() => {
+      loading_form = false;
       step.value = 4;
-    }, 3000);
+    }, 300);
   }
-})
+};
+
+//
+// watch(step, (v) => {
+//   if(v == 3) {
+//     // TODO: run query
+//     setTimeout(() => {
+//       step.value = 4;
+//     }, 3000);
+//   }
+// })
 
 
 </script>
@@ -88,25 +107,24 @@ watch(step, (v) => {
 
 
       <div class="step-1" v-if="step === 1">
-        <div class="card bg-accent text-primary-content mb-2 w-full  w-full">
-          <div class="card-body">
-            <h2 class="card-title">Query {{ selected_item.id }}</h2>
-            <p v-html="selected_item.description"></p>
-          </div>
-        </div>
+        <DashboardActionCard  :item="selected_item" :hide_controls="true" :wide="true"/>
       </div>
 
 
-      <div class="step-2" v-else-if="step === 2">
+      <div class="step-2" v-if="step === 2">
         <QueryRunnerForm :item="selected_item"/>
+        <div class="alert alert-info max-w-md mx-auto justify-center" v-if="step === 2 && !selected_item.input.length">
+          This query does not require any variables!
+        </div>
+
       </div>
 
-      <div class="step-3" v-else-if="step === 3">
+      <div class="step-3" v-if="step === 3">
         <Spinner />
       </div>
 
-      <div class="step-4" v-else-if="step === 4 || step === 3">
-        <QueryTable class="mb-5" v-show="step === 4"/>
+      <div class="step-4" v-if="step === 4 || step === 3">
+        <QueryTable class="mb-5" @inited="query_table_inited" :item="selected_item" :params="form_values" v-show="step === 4"/>
       </div>
 
       <div class="btn-wrapper self-end flex justify-between w-full">
@@ -163,8 +181,6 @@ watch(step, (v) => {
         }
       }
     }
-
-
   }
 
   .step-3 {

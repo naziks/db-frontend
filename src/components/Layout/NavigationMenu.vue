@@ -14,24 +14,24 @@ let menuItems = ref([
   },
 
   {type: "divider", title: 'People'},
-  {type: 'item', name: "Alcoholics", link: "/alcoholics", icon: 'user'},
-  {type: 'item', name: "Inspectors", link: "/inspectors", icon: 'user-shield'},
+  {type: 'item', name: "Alcoholics", link: "/person/alcoholic/list", icon: 'user'},
+  {type: 'item', name: "Inspectors", link: "/person/inspector/list", icon: 'user-shield'},
 
   {type: "divider", title: 'Entites'},
-  {type: 'item', name: "Alco Groups", link: "/alco_groups", icon: 'users'},
-  {type: 'item', name: "Beds", link: "/beds", icon: 'bed'},
-  {type: 'item', name: "Drinks", link: "/drinks", icon: 'beer'},
+  {type: 'item', name: "Alco Party", link: "/event/alco_party/list", icon: 'users'},
+  {type: 'item', name: "Beds", link: "/entity/bed/list", icon: 'bed'},
+  {type: 'item', name: "Drinks", link: "/entity/drink/list", icon: 'beer'},
 
   {type: "divider", title: 'Events'},
-  {type: 'item', name: "Join", link: "/event/join", icon: 'right-to-bracket'},
-  {type: 'item', name: "Bed change", link: "/event/bed_change", icon: 'arrow-right-arrow-left'},
-  {type: 'item', name: "Faint", link: "/event/faint", icon: 'skull-crossbones'},
-  {type: 'item', name: "Leave", link: "/event/leave", icon: 'right-from-bracket'},
-  {type: 'item', name: "Escape", link: "/event/escape", icon: 'person-running'},
+  {type: 'item', name: "Join", link: "/event/join/list", icon: 'right-to-bracket'},
+  {type: 'item', name: "Bed change", link: "/event/bed_change/list", icon: 'arrow-right-arrow-left'},
+  {type: 'item', name: "Faint", link: "/event/faint/list", icon: 'skull-crossbones'},
+  {type: 'item', name: "Leave", link: "/event/leave/list", icon: 'right-from-bracket'},
+  {type: 'item', name: "Escape", link: "/event/escape/list", icon: 'person-running'},
 
   {type: "divider", title: 'Other'},
   {type: 'item', name: "About", link: "/other/about", icon: 'circle-info'},
-  {type: 'item', name: "Developers", link: "/other/developers", icon: 'circle-info'},
+  // {type: 'item', name: "Developers", link: "/other/developers", icon: 'circle-info'},
 
 
 ]);

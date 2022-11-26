@@ -98,7 +98,7 @@ const valueChanged = (e: any) => {
   selected.value = false;
   emit('formInputValueChanged', {
     id: id.value,
-    value: ''
+    value: []
   });
 
   if (busy.value) {
@@ -170,11 +170,11 @@ const select = (item: any) => {
 
 <style scoped lang="scss">
 .dropdown {
-  z-index: 10;
   width: min(100%, 400px);
 
   ul {
     width: min(100%, 300px);
+    z-index: 10;
   }
 }
 

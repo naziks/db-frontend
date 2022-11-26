@@ -13,28 +13,16 @@ import ItemNumber from "@/components/QueryRunnerForm/ItemNumber.vue";
 import { useEventsBus } from '@/helpers';
 import ItemEntityPicker from "@/components/QueryRunnerForm/ItemEntityPicker.vue";
 import ItemDateRange from "@/components/QueryRunnerForm/ItemDateRange.vue";
+import ItemEntityPickerMulti from '@/components/QueryRunnerForm/ItemEntityPickerMulti.vue';
 
 let { recieve, emit} = useEventsBus();
 
 // import npm event bus
-
 let props = defineProps<{
   item: Query
 }>();
 let {item} = toRefs(props);
 
-
-const validate = (inp: InputListItemType, event: any) => {
-  if(!inp.validator) return;
-
-  let valid = inp.validator(event.key || event.target.value || '');
-
-  if(!valid) {
-    console.log('invalid', event);
-    if(event.key) event.preventDefault();
-    else event.target.value = '';
-  }
-}
 // random string
 const values = ref<(string | object)[]>([]);
 const isFormValid = ref<boolean>(false);
@@ -71,16 +59,17 @@ recieve('formInputValueChanged', ({id, value}: {id: number, value: any}) => {
 })
 
 const validateForm = () => {
-  isFormValid.value = values.value.length === item.value.input.length && values.value.every((v: any) => !!v);
+  let lengthmatch = values.value.length === item.value.input.length;
+  let items_valid = Array.from(values.value)
+      .every((v: any) => !!v);
+
+  isFormValid.value =  lengthmatch && items_valid;
 }
 </script>
 
 <template>
-  <form @submit.prevent="" class="gap-3">
-    <div class="form-item w-full" v-for="(inp, id) in item.input" :key="id">
-<!--      <hr>-->
-<!--      <div>Found value: {{ values[id] || 'None' }}</div>-->
-
+  <form @submit.prevent="" class="flex flex-col justify-center items-center gap-3 w-full">
+    <div class="form-item w-full flex flex-col items-start  justify-content-center max-w-xs" v-for="(inp, id) in item.input" :key="id">
       <ItemString v-if="inp.type === InputItemType.string" :input="inp" :id="id"/>
       <ItemNumber v-else-if="inp.type === InputItemType.number" :input="inp" :id="id"/>
       <ItemEntityPicker v-else-if="inp.type === InputItemType.entitypicker" :input="inp" :id="id"/>

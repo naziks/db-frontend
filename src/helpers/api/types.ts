@@ -7,12 +7,12 @@ export enum ApiRequestMethod{
 }
 
 export interface ApiRequestDataBase {}
-export type ApiRequestData = ApiRequestDataBase | string | number | boolean
+export type ApiRequestData = ApiRequestDataBase | string | number | boolean | null
 
 export interface ApiRequest<T extends ApiRequestData> {
     method: ApiRequestMethod
     path: string
-    params?: null | Record<string, string | number | boolean>
+    params?: any
     data?: T
 }
 
@@ -20,6 +20,7 @@ export interface ApiRequest<T extends ApiRequestData> {
 export interface ApiError {
     code: number
     message: string
+    details?: any
 }
 
 export interface ApiSuccessBase {}

@@ -14,6 +14,6 @@ const { isAuthenticated } = useAuthStore();
 
 <style lang="scss">
 html, body, #app {
-  height: 100%;
+  min-height: 100vh;
 }
 </style>

@@ -42,7 +42,7 @@ const runKeyPressValidator = (e) => {
 </script>
 
 <template>
-  <label class="label">
+  <label class="label max-w-xs">
     <span class="label-text">{{ input.label }}</span>
   </label>
 

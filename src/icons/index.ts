@@ -23,5 +23,8 @@ library.add(solid.faSkullCrossbones)
 library.add(solid.faArrowRightArrowLeft)
 library.add(solid.faInfoCircle)
 library.add(solid.faSpinner)
+library.add(solid.faPlus)
+library.add(solid.faArrowLeft)
+library.add(solid.faSave)
 
 export default library;
